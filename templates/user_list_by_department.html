@@ -1,0 +1,42 @@
+<!-- user_list_by_department.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Users by Department{% endblock %}
+
+{% block content %}
+<h1>Users in Department</h1>
+<ul class="list-group">
+    {% for user in users %}
+        <li class="list-group-item">
+            <a href="{% url 'user_detail' user.id %}"><strong>{{ user.first_name }} {{ user.last_name }}</strong></a>
+            <br>
+            Позиция: {{ user.position }}
+            <br>
+            Дата приема: {{ user.hire_date }}
+            <br>
+            Заработная плата: {{ user.salary }}
+        </li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if users.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ users.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current-page">
+            Page {{ users.number }} of {{ users.paginator.num_pages }}.
+        </span>
+
+        {% if users.has_next %}
+            <a href="?page={{ users.next_page_number }}">next</a>
+            <a href="?page={{ users.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<a href="{% url 'department_tree' %}">Back to Department Tree</a>
+{% endblock %}
